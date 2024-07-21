@@ -77,7 +77,7 @@ const {password: userPassword, ...userInfo} = user;
 
 res.cookie("token", token, {
     httpOnly:true,
-    // secure:true  use this during production, not rn,
+    secure:true , //changed for cookie issue
     maxAge: age,
 }).status(200).json(userInfo);
 
