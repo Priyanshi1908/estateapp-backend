@@ -77,7 +77,7 @@ const {password: userPassword, ...userInfo} = user;
 
 res.cookie("token", token, {
     httpOnly:true,
-    secure:true , //changed for cookie issue
+    secure: process.env.NODE_ENV === 'production', //changed for cookie issue part 2
     maxAge: age,
 }).status(200).json(userInfo);
 
