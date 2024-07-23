@@ -104,7 +104,7 @@ export const savePost = async(req,res)=>{
     const postId = req.body.postId;   //during revision make sure you understand this once again ~personal
     const tokenUserId = req.userId;
 
-   
+   console.log("this is req.userId from savePost function",tokenUserId)
     try{
 
         const savedPost = await prisma.savedPost.findUnique({
@@ -160,10 +160,15 @@ export const profilePosts = async (req, res) => {
       return res.status(400).json({ message: "Invalid user ID format" });
   }
 
+  if (!isValidObjectId(tokenUserId2)) {
+    console.log("Invalid user ID2 format");
+    return res.status(400).json({ message: "Invalid user ID2 format" });
+}
+
     try {
       const userPosts = await prisma.post.findMany({
         where: { 
-            userId:tokenUserId,
+            userId:tokenUserId2,
          },
       });
 
@@ -171,7 +176,7 @@ export const profilePosts = async (req, res) => {
 
       const saved = await prisma.savedPost.findMany({
         where: { 
-            userId:tokenUserId,
+            userId:tokenUserId2,
          },
          include:{
             post:true,
