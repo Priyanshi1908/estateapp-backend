@@ -12,7 +12,7 @@ jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, payload)=>{
         console.log("Invalid token", err); // changed for cookie issue
         return res.status(403).json({ message: "Token is not valid, sorry" });
     }    req.userId = payload.id;
-     console.log(req.userId);
+     console.log("User ID from token.js:", req.userId);
     next();
 });
 }

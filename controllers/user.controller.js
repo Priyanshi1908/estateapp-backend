@@ -146,10 +146,11 @@ export const savePost = async(req,res)=>{
 export const profilePosts = async (req, res) => {
   const isValidObjectId = (id) => /^[a-fA-F0-9]{24}$/.test(id); //added for uninformed object error
 
-    const tokenUserId = req.params.userId;
+    const tokenUserId = req.userId;
 
     console.log("Incoming request to /profilePosts");
     console.log("Received tokenUserId:", tokenUserId);
+    
     if (!isValidObjectId(tokenUserId)) {
       console.log("Invalid user ID format");
       return res.status(400).json({ message: "Invalid user ID format" });
