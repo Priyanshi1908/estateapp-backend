@@ -1,5 +1,7 @@
 import prisma from "../lib/prisma.js";
 import bcrypt from "bcrypt";
+import { ObjectId } from 'mongodb'; // Import ObjectId validation
+
 
 
 export const getUsers = async (req, res) => {
@@ -15,10 +17,20 @@ export const getUsers = async (req, res) => {
 
 
   export const getUser = async (req, res) => {
+    const isValidObjectId = (id) => /^[a-fA-F0-9]{24}$/.test(id);
+
     const id = req.params.id;
+     // Validate ObjectID format
+     if (!isValidObjectId(id)) {
+      return res.status(400).json({ message: "Invalid user ID format" });
+  }
     try {
       const user = await prisma.user.findUnique({
         where: { id },
+        include: {
+          posts: true, // Ensure that posts is a valid relation objectId data error
+          savedPosts: true, // Ensure that savedPosts is a valid relation object id error
+        },
       });
       res.status(200).json(user);
     } catch (err) {
@@ -134,7 +146,14 @@ export const savePost = async(req,res)=>{
 
 
 export const profilePosts = async (req, res) => {
+  const isValidObjectId = (id) => /^[a-fA-F0-9]{24}$/.test(id); //added for uninformed object error
+
     const tokenUserId = req.params.userId;
+
+    if (!isValidObjectId(tokenUserId)) {
+      return res.status(400).json({ message: "Invalid user ID format" });
+  }
+
     try {
       const userPosts = await prisma.post.findMany({
         where: { 
