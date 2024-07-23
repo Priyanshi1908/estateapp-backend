@@ -1,7 +1,5 @@
 import prisma from "../lib/prisma.js";
 import bcrypt from "bcrypt";
-import { ObjectId } from 'mongodb'; // Import ObjectId validation
-
 
 
 export const getUsers = async (req, res) => {
