@@ -155,10 +155,10 @@ export const profilePosts = async (req, res) => {
     console.log("Received tokenUserId2 from params:", tokenUserId2);
 
 
-    if (!isValidObjectId(tokenUserId)) {
-      console.log("Invalid user ID format");
-      return res.status(400).json({ message: "Invalid user ID format" });
-  }
+  //   if (!isValidObjectId(tokenUserId)) {
+  //     console.log("Invalid user ID format");
+  //     return res.status(400).json({ message: "Invalid user ID format" });
+  // }
 
   if (!isValidObjectId(tokenUserId2)) {
     console.log("Invalid user ID2 format");
