@@ -17,10 +17,10 @@ export const getUsers = async (req, res) => {
   export const getUser = async (req, res) => {
     const isValidObjectId = (id) => /^[a-fA-F0-9]{24}$/.test(id);
 
-    const id = req.params.id;
+    const id = req.id; //changed getuser function
      // Validate ObjectID format
      if (!isValidObjectId(id)) {
-      return res.status(400).json({ message: "Invalid user ID format" });
+      return res.status(400).json({ message: "Invalid user ID format for getuser function" });
   }
     try {
       const user = await prisma.user.findUnique({
@@ -155,10 +155,10 @@ export const profilePosts = async (req, res) => {
     console.log("Received tokenUserId2 from params:", tokenUserId2);
 
 
-  //   if (!isValidObjectId(tokenUserId)) {
-  //     console.log("Invalid user ID format");
-  //     return res.status(400).json({ message: "Invalid user ID format" });
-  // }
+    if (!isValidObjectId(tokenUserId)) {
+      console.log("Invalid user ID format");
+      return res.status(400).json({ message: "Invalid user ID format" });
+  }
 
   if (!isValidObjectId(tokenUserId2)) {
     console.log("Invalid user ID2 format");
