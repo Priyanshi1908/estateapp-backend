@@ -148,7 +148,10 @@ export const profilePosts = async (req, res) => {
 
     const tokenUserId = req.params.userId;
 
+    console.log("Incoming request to /profilePosts");
+    console.log("Received tokenUserId:", tokenUserId);
     if (!isValidObjectId(tokenUserId)) {
+      console.log("Invalid user ID format");
       return res.status(400).json({ message: "Invalid user ID format" });
   }
 
@@ -158,6 +161,9 @@ export const profilePosts = async (req, res) => {
             userId:tokenUserId,
          },
       });
+
+      console.log("User posts fetched:", userPosts);
+
       const saved = await prisma.savedPost.findMany({
         where: { 
             userId:tokenUserId,
@@ -167,10 +173,13 @@ export const profilePosts = async (req, res) => {
          }
       });
 
+
       const savedPosts = saved.map(item=>item.post)
+      console.log("Saved posts fetched:", savedPosts);
+
       res.status(200).json({userPosts, savedPosts});
     } catch (err) {
-      console.log(err);
+      console.error("Error in profilePosts controller:", err);
       res.status(500).json({ message: "Failed to get profile Posts" });
     }
   };
