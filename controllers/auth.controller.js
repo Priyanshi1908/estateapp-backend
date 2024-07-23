@@ -76,8 +76,9 @@ const token = jwt.sign({
 const {password: userPassword, ...userInfo} = user;
 
 res.cookie("token", token, {
-    httpOnly:true,
-    secure: process.env.NODE_ENV === 'production', //changed for cookie issue part 2
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production', // Secure cookies in production
+    sameSite: 'None', // Required if secure is true
     maxAge: age,
 }).status(200).json(userInfo);
 
