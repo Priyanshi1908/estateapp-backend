@@ -17,10 +17,10 @@ export const getUsers = async (req, res) => {
   export const getUser = async (req, res) => {
     const isValidObjectId = (id) => /^[a-fA-F0-9]{24}$/.test(id);
 
-    const id = req.id; //changed getuser function
+    const id = req.params.id;
      // Validate ObjectID format
      if (!isValidObjectId(id)) {
-      return res.status(400).json({ message: "Invalid user ID format for getuser function" });
+      console.log("Invalid user ID format from getuser function")
   }
     try {
       const user = await prisma.user.findUnique({
@@ -146,7 +146,7 @@ export const savePost = async(req,res)=>{
 export const profilePosts = async (req, res) => {
   const isValidObjectId = (id) => /^[a-fA-F0-9]{24}$/.test(id); //added for uninformed object error
 
-    const tokenUserId = req.userId;
+  const tokenUserId = req.userId;
     const tokenUserId2 = req.params.userId;
 
 
@@ -157,18 +157,17 @@ export const profilePosts = async (req, res) => {
 
     if (!isValidObjectId(tokenUserId)) {
       console.log("Invalid user ID format");
-      return res.status(400).json({ message: "Invalid user ID format" });
+      return res.status(400).json({ message: "Invalid user ID format from profileposts function" });
   }
 
   if (!isValidObjectId(tokenUserId2)) {
     console.log("Invalid user ID2 format");
-    return res.status(400).json({ message: "Invalid user ID2 format" });
 }
 
     try {
       const userPosts = await prisma.post.findMany({
         where: { 
-            userId:tokenUserId2,
+            userId:tokenUserId,
          },
       });
 
@@ -176,7 +175,7 @@ export const profilePosts = async (req, res) => {
 
       const saved = await prisma.savedPost.findMany({
         where: { 
-            userId:tokenUserId2,
+            userId:tokenUserId,
          },
          include:{
             post:true,
